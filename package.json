@@ -4,19 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run gulp-compile",
-    "gulp-compile": "gulp --gulpfile gulp/bootstrap.js --cwd .;",
+    "start": "npm run gulp-compile; npm run gulp-build",
+    "gulp-compile": "gulp --gulpfile gulp/bootstrap.js --cwd .",
+    "gulp-build": "gulp --gulpfile dist/gulp/index.js --cwd .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mongoose": "^4.7.23",
     "@types/node": "^8.0.34",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.2",
+    "mongoose": "^4.12.1",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   }
