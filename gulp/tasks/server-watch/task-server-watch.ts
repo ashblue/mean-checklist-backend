@@ -1,6 +1,7 @@
 import TaskBase from '../base/task-base';
 import { buildTypescript } from '../build-typescript/task-build-typescript';
 
+import cp = require('child_process');
 import nodemon = require('gulp-nodemon');
 
 class TaskServerWatch extends TaskBase {
@@ -14,12 +15,22 @@ class TaskServerWatch extends TaskBase {
 
     // @TODO Must be re-written with vanilla Nodemon (Gulp Nodemon is broken)
     public logic (callback: any) {
-        return nodemon({
+        const n = nodemon({
             ext: 'ts',
             script: 'dist/src/index.js',
-            tasks: [buildTypescript.name],
             watch: ['src/**/*.ts'],
         });
+
+        // ***** Shims for gulp-nodemon/index.js - Adds support for Gulp flags *****
+        // Submitted a ticket to get this fixed in the master gulp-nodemon repo, currently gulp tasks always fail since additional arguments can't be passed in
+        // @src https://github.com/JacksonGariety/gulp-nodemon/issues/146
+        n.on('restart', () => {
+            cp.spawnSync('gulp', [buildTypescript.name, '--gulpfile', 'dist/gulp/index.js', '--cwd', '.'], {
+                stdio: [0, 1, 2],
+            });
+        });
+
+        return n;
     }
 }
 

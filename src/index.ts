@@ -7,5 +7,5 @@ app.express.listen(PORT, (err) => {
         return console.error(err);
     }
 
-    return console.log(`server is listening on ${PORT}`);
+    return console.log(`Server is listening on ${PORT}`);
 });
