@@ -1,7 +1,8 @@
 import { ModelChecklist } from '../../models/index';
 
-export class ChecklistsCtrl {
-    // @TODO Only return the index of checklists from the current user
+// @TODO If a user isn't logged in reject their access (route middleware)
+// @TODO Limit checklist access on all methods to items that belong to the requester
+class CtrlChecklists {
     public index (req, res, next) {
         ModelChecklist.find()
             .sort(['createdAt', 'descending'])
@@ -14,7 +15,6 @@ export class ChecklistsCtrl {
             });
     }
 
-    // @TODO Assign the current user to the checklist
     public create (req, res, next) {
         const checklist = new ModelChecklist(req.body);
         checklist.save((err) => {
@@ -22,11 +22,10 @@ export class ChecklistsCtrl {
                 next(err);
             }
 
-            res.render(checklist);
+            res.json(checklist);
         });
     }
 
-    // @TODO Block this request if the checklist doesn't belong to the user
     public get (req, res, next) {
         req.sanitize('id').escape();
         req.sanitize('id').trim();
@@ -42,7 +41,6 @@ export class ChecklistsCtrl {
             });
     }
 
-    // @TODO Block this request if the checklist doesn't belong to the user
     public update (req, res, next) {
         req.sanitize('id').escape();
         req.sanitize('id').trim();
@@ -56,20 +54,19 @@ export class ChecklistsCtrl {
         });
     }
 
-    // @TODO Block this request if the checklist doesn't belong to the user
     public destroy (req, res, next) {
         req.sanitize('id').escape();
         req.sanitize('id').trim();
 
         // @TODO Delete all associated tasks
-        ModelChecklist.findByIdAndRemove(req.params.id, req.body, (err, checklist) => {
+        ModelChecklist.findByIdAndRemove(req.params.id, (err) => {
             if (err) {
                 return next(err);
             }
 
-            res.json(checklist);
+            res.status(200);
         });
     }
 }
 
-export const checklistsCtrl = new ChecklistsCtrl();
+export const ctrlChecklists = new CtrlChecklists();

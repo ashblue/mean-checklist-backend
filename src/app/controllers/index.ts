@@ -1,2 +1,2 @@
-export * from './checklists/checklists';
+export * from './checklists/index';
 export * from './databases/databases';
