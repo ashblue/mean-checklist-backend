@@ -9,7 +9,7 @@ class RouteChecklists {
 
     constructor () {
         this.router.get('/', ctrlChecklists.index);
-        this.router.post('/create', ctrlChecklists.create);
+        this.router.put('/create', ctrlChecklists.create);
         this.router.get('/:id', ctrlChecklists.get);
         this.router.put('/:id', ctrlChecklists.update);
         this.router.delete('/:id', ctrlChecklists.destroy);
