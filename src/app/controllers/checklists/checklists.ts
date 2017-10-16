@@ -5,7 +5,7 @@ import { ModelChecklist } from '../../models/index';
 class CtrlChecklists {
     public index (req, res, next) {
         ModelChecklist.find()
-            .sort(['createdAt', 'descending'])
+            .sort([['createdAt', 'descending']])
             .exec((err, checklists) => {
                 if (err) {
                     return next(err);
