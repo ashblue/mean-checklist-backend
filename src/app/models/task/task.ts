@@ -1,9 +1,15 @@
+import { ModelBase } from './../base/model-base';
+
 import mongoose = require('mongoose');
 
-const taskSchema: mongoose.Schema = new mongoose.Schema({
-    createdAt: Date,
-    title: String,
-    complete: Boolean,
-});
+class ModelTaskInternal extends ModelBase {
+    protected get schemaDefinition (): mongoose.SchemaDefinition {
+        return {
+            createdAt: Date,
+            title: String,
+            complete: Boolean,
+        };
+    }
+}
 
-export const ModelTask = mongoose.model('Task', taskSchema);
+export const ModelTask = mongoose.model('Task', new ModelTaskInternal().schema);
