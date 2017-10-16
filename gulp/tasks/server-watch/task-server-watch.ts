@@ -25,7 +25,7 @@ class TaskServerWatch extends TaskBase {
         // Submitted a ticket to get this fixed in the master gulp-nodemon repo, currently gulp tasks always fail since additional arguments can't be passed in
         // @src https://github.com/JacksonGariety/gulp-nodemon/issues/146
         n.on('restart', () => {
-            cp.spawnSync('gulp', [buildTypescript.name, '--gulpfile', 'dist/gulp/index.js', '--cwd', '.'], {
+            cp.spawnSync('gulp', ['build', '--gulpfile', 'dist/gulp/index.js', '--cwd', '.'], {
                 stdio: [0, 1, 2],
             });
         });
