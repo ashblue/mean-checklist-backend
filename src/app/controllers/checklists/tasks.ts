@@ -1,3 +1,6 @@
+import * as express from 'express';
+import { sanitize } from 'express-validator/filter';
+
 import { ModelChecklist, ModelTask } from '../../models/index';
 
 // import async = require('async');
@@ -6,33 +9,36 @@ import { ModelChecklist, ModelTask } from '../../models/index';
 // @TODO If a user isn't logged in reject their access (route middleware)
 // @TODO Limit checklist access on all methods to items that belong to the requester
 class CtrlChecklistTasks {
-    public create (req, res, next) {
-        req.sanitize('id').escape();
-        req.sanitize('id').trim();
+    public create (req: express.Request, res: express.Response) {
+        sanitize('id').escape().trim();
 
         ModelChecklist.findById(req.params.id)
-            .populate('tasks')
             .exec((err, checklist) => {
                 if (err) {
-                    return next(err);
+                    res.status(404).json(err);
+                    return;
                 }
 
                 if (checklist == null) {
-                    return res.status(400);
+                    res.status(400).json({
+                        message: `No checklist found with id ${req.params.id}. Response was ${checklist}`,
+                    });
+                    return;
                 }
 
                 const task = new ModelTask(req.body);
                 task.save((errTask, task) => {
                     if (errTask) {
-                        return next(errTask);
+                        res.status(500).json(errTask);
+                        return;
                     }
 
-                    checklist.update(
-                        { _id: req.params.id },
-                        { $push: { tasks: task } },
-                        (errUpdate) => {
+                    checklist.get('tasks').push(task.id);
+                    checklist.save(
+                        (errUpdate, checklistUpdate, numAffected) => {
                             if (errUpdate) {
-                                return next(errUpdate);
+                                res.status(500).json(errUpdate);
+                                return;
                             }
 
                             res.json(task);
@@ -42,30 +48,53 @@ class CtrlChecklistTasks {
             });
     }
 
-    public update (req, res, next) {
-        req.sanitize('idTask').escape();
-        req.sanitize('idTask').trim();
+    public update (req: express.Request, res: express.Response) {
+        sanitize('idTask').escape().trim();
 
-        ModelTask.findByIdAndUpdate(req.params.idTask, req.body, (err, task) => {
+        // These props should never be written to the database, delete them if present
+        delete req.body.id;
+        delete req.body.createdAt;
+
+        ModelTask.findByIdAndUpdate(req.params.idTask, req.body, {new: true}, (err, task) => {
             if (err) {
-                return next(err);
+                res.status(404).json(err);
+                return;
             }
 
             res.json(task);
         });
     }
 
-    public destroy (req, res, next) {
-        req.sanitize('idTask').escape();
-        req.sanitize('idTask').trim();
+    public destroy (req: express.Request, res: express.Response) {
+        sanitize('idTask').escape().trim();
 
         ModelTask.findByIdAndRemove(req.params.idTask, (err) => {
             if (err) {
-                return next(err);
+                res.status(404).json(err);
+                return;
             }
 
-            res.status(200);
+            res.status(200).json({});
         });
+    }
+
+    public get (req: express.Request, res: express.Response) {
+        sanitize('idTask').escape().trim();
+
+        ModelTask.findById(req.params.idTask)
+            .exec((err, task) => {
+                if (err) {
+                    res.status(404).json(err);
+                    return;
+                }
+
+                if (task === null) {
+                    res.status(404).json({message: `Task ID ${req.params.idTask} not found`});
+                    return;
+                }
+
+                res.json(task);
+            });
     }
 }
 

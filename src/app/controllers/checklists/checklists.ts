@@ -67,17 +67,20 @@ class CtrlChecklists {
         sanitize('id').escape().trim();
 
         ModelChecklist.findById(req.params.id, (err, checklist) => {
-            if (err || checklist == null) {
+            if (err) {
                 res.status(404).json(err);
                 return;
             }
 
-            const taskIds = checklist.get('tasks').map((t) => {
-                return t.get('_id');
-            });
+            if (checklist === null) {
+                res.status(404).json({message: 'Checklist not found'});
+                return;
+            }
 
-            ModelTask.remove({id: {$in: taskIds }}, (err) => {
-                if (err || checklist == null) {
+            const taskIds = checklist.get('tasks');
+
+            ModelTask.remove({_id: {$in: taskIds}}, (err) => {
+                if (err) {
                     res.status(404).json(err);
                     return;
                 }
