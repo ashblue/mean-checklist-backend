@@ -1,70 +1,97 @@
-import { ModelChecklist } from '../../models/index';
+import * as express from 'express';
+import { sanitize } from 'express-validator/filter';
+
+import { ModelChecklist, ModelTask } from '../../models/index';
 
 // @TODO If a user isn't logged in reject their access (route middleware)
 // @TODO Limit checklist access on all methods to items that belong to the requester
 class CtrlChecklists {
-    public index (req, res, next) {
+    public index (req: express.Request, res: express.Response) {
         ModelChecklist.find()
             .sort([['createdAt', 'descending']])
             .exec((err, checklists) => {
                 if (err) {
-                    return next(err);
+                    res.status(500).json(err);
+                    return;
                 }
 
                 res.json(checklists);
             });
     }
 
-    public create (req, res, next) {
+    public create (req: express.Request, res: express.Response) {
         const checklist = new ModelChecklist(req.body);
         checklist.save((err) => {
             if (err) {
-                next(err);
+                res.status(400).json(err);
+                return;
             }
 
             res.json(checklist);
         });
     }
 
-    public get (req, res, next) {
-        req.sanitize('id').escape();
-        req.sanitize('id').trim();
+    public get (req: express.Request, res: express.Response) {
+        sanitize('id').escape().trim();
+
 
         ModelChecklist.findById(req.params.id)
             .populate('tasks')
             .exec((err, checklist) => {
                 if (err) {
-                    return next(err);
+                    res.status(404).json(err);
+                    return;
                 }
 
                 res.json(checklist);
             });
     }
 
-    public update (req, res, next) {
-        req.sanitize('id').escape();
-        req.sanitize('id').trim();
+    public update (req: express.Request, res: express.Response) {
+        sanitize('id').escape().trim();
 
-        ModelChecklist.findByIdAndUpdate(req.params.id, req.body, (err, checklist) => {
+        // These props should never be written to the database, delete them if present
+        delete req.body.id;
+        delete req.body.createdAt;
+
+        ModelChecklist.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, checklist) => {
             if (err) {
-                return next(err);
+                res.status(404).json(err);
+                return;
             }
 
             res.json(checklist);
         });
     }
 
-    public destroy (req, res, next) {
-        req.sanitize('id').escape();
-        req.sanitize('id').trim();
+    public destroy (req: express.Request, res: express.Response) {
+        sanitize('id').escape().trim();
 
-        // @TODO Delete all associated tasks
-        ModelChecklist.findByIdAndRemove(req.params.id, (err) => {
-            if (err) {
-                return next(err);
+        ModelChecklist.findById(req.params.id, (err, checklist) => {
+            if (err || checklist == null) {
+                res.status(404).json(err);
+                return;
             }
 
-            res.status(200);
+            const taskIds = checklist.get('tasks').map((t) => {
+                return t.get('_id');
+            });
+
+            ModelTask.remove({id: {$in: taskIds }}, (err) => {
+                if (err || checklist == null) {
+                    res.status(404).json(err);
+                    return;
+                }
+
+                checklist.remove((err) => {
+                    if (err) {
+                        res.status(404).json(err);
+                        return;
+                    }
+
+                    res.status(200).json({});
+                });
+            });
         });
     }
 }
