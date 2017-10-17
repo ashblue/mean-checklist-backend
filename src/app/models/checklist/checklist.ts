@@ -13,10 +13,10 @@ class ModelChecklistInternal extends ModelBase {
                 type: String,
                 default: 'Untitled',
             },
-            tasks: {
-                type: [mongoose.Schema.Types.ObjectId],
+            tasks: [{
+                type: mongoose.Schema.Types.ObjectId,
                 ref: 'Task',
-            },
+            }],
         };
     }
 }

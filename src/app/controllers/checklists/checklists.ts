@@ -34,7 +34,6 @@ class CtrlChecklists {
     public get (req: express.Request, res: express.Response) {
         sanitize('id').escape().trim();
 
-
         ModelChecklist.findById(req.params.id)
             .populate('tasks')
             .exec((err, checklist) => {
