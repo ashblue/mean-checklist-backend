@@ -11,7 +11,8 @@
     "quotemark": [true, "single"],
     "max-line-length": [false],
     "object-literal-sort-keys": false,
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "no-string-literal": false
   },
   "rulesDirectory": []
 }

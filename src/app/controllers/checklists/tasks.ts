@@ -11,8 +11,12 @@ import { ModelChecklist, ModelTask } from '../../models/index';
 class CtrlChecklistTasks {
     public create (req: express.Request, res: express.Response) {
         sanitize('id').escape().trim();
+        req.body.owner = req['user']._id;
 
-        ModelChecklist.findById(req.params.id)
+        ModelChecklist.findOne({
+            _id: req.params.id,
+            owner: req['user']._id,
+        })
             .exec((err, checklist) => {
                 if (err) {
                     res.status(404).json(err);
@@ -54,8 +58,12 @@ class CtrlChecklistTasks {
         // These props should never be written to the database, delete them if present
         delete req.body.id;
         delete req.body.createdAt;
+        delete req.body.owner;
 
-        ModelTask.findByIdAndUpdate(req.params.idTask, req.body, {new: true}, (err, task) => {
+        ModelTask.findOneAndUpdate({
+            _id: req.params.idTask,
+            owner: req['user']._id,
+        }, req.body, {new: true}, (err, task) => {
             if (err) {
                 res.status(404).json(err);
                 return;
@@ -68,7 +76,10 @@ class CtrlChecklistTasks {
     public destroy (req: express.Request, res: express.Response) {
         sanitize('idTask').escape().trim();
 
-        ModelTask.findByIdAndRemove(req.params.idTask, (err) => {
+        ModelTask.findOneAndRemove({
+            _id: req.params.idTask,
+            owner: req['user']._id,
+        }, (err) => {
             if (err) {
                 res.status(404).json(err);
                 return;
@@ -81,7 +92,10 @@ class CtrlChecklistTasks {
     public get (req: express.Request, res: express.Response) {
         sanitize('idTask').escape().trim();
 
-        ModelTask.findById(req.params.idTask)
+        ModelTask.findOne({
+            _id: req.params.idTask,
+            owner: req['user']._id,
+        })
             .exec((err, task) => {
                 if (err) {
                     res.status(404).json(err);

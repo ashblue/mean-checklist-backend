@@ -17,6 +17,11 @@ class ModelChecklistInternal extends ModelBase {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Task',
             }],
+            owner: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+                required: [true, 'Owner is required'],
+            },
         };
     }
 }

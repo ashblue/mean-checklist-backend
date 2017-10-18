@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Database } from './controllers/index';
+import { ctrlAuth, Database } from './controllers/index';
 import { RouteApi } from './routes/index';
 
 import bodyParser = require('body-parser');
@@ -14,6 +14,7 @@ class App {
 
         this.express = express();
         this.express.use(bodyParser.json());
+        this.express.use(ctrlAuth.passport.initialize());
         this.api = new RouteApi(this.express);
     }
 }
