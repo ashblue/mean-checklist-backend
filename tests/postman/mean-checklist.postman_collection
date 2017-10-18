@@ -1,0 +1,1082 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Mean Checklist",
+		"_postman_id": "d30f5925-2539-e8d4-3656-106958bdeebd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Create",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Duplicate",
+							"description": "",
+							"item": [
+								{
+									"name": "Create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var data = JSON.parse(responseBody);",
+													"tests[\"User created\"] = responseCode.code === 200;",
+													"postman.setEnvironmentVariable(\"email\", data.email);",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3000/api/v1/users/register",
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Create user duplicate email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Prevented user from being created\"] = responseCode.code === 500;",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3000/api/v1/users/register",
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{email}}\",\n\t\"password\": \"{{password}}\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests[\"User created\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"email\", data.email);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No name detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{$guid}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No email detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"password\": \"{{$guid}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No email detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Login",
+					"description": "",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests[\"User created\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"email\", data.email);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Login provides token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Login success\"] = responseCode.code === 200;",
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"token\", data.token);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/login",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{email}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Checklists",
+			"description": "",
+			"item": [
+				{
+					"name": "CRUD Checklist",
+					"description": "",
+					"item": [
+						{
+							"name": "Create checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Title set properly'] = data.title === 'My Checklist';",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"checklistId\", data.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My Checklist\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get all checklists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Is array returned?'] = data.length >= 1;",
+											"tests[\"Successful response code\"] = responseCode.code === 200;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get checklist - success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Response returned'] = data !== null;",
+											"tests[\"Successful response code\"] = responseCode.code === 200;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": "@TODO Use an environmental variable for the ID"
+							},
+							"response": []
+						},
+						{
+							"name": "Update checklist - success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Object updated'] = data.title === \"Updated Checklist\";",
+											"tests[\"Successful response code\"] = responseCode.code === 200;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tasks\": [],\n    \"title\": \"Updated Checklist\",\n    \"id\": \"{{checklistId}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy checklist - success",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response error code\"] = responseCode.code === 200;",
+											"tests['Empty response'] = responseBody === \"{}\";"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Failure Requests",
+					"description": "",
+					"item": [
+						{
+							"name": "Get checklist - Failure",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Failure error code\"] = responseCode.code === 404;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Update checklist - Failure",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Failure error code\"] = responseCode.code === 404;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tasks\": [],\n    \"title\": \"Updated Checklist\",\n    \"id\": \"{{$randomInt}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy checklist - Failure",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Failure error code\"] = responseCode.code === 404;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"description": "",
+			"item": [
+				{
+					"name": "Task LIfecycle",
+					"description": "",
+					"item": [
+						{
+							"name": "Create checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Title set properly'] = data.title === 'My Checklist';",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"checklistId\", data.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My Checklist\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Task updated on create'] = data.title === \"My Task\";",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"taskId\", data.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My Task\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Task updated on create'] = data.title === \"My Task\";",
+											"tests[\"Successful response code\"] = responseCode.code === 200;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "New tasks appear in checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var checklist = JSON.parse(responseBody);",
+											"var taskId = postman.getEnvironmentVariable(\"taskId\");",
+											"",
+											"var hasTaskId = false;",
+											"checklist.tasks.forEach((t) => {",
+											"    if (!hasTaskId) {",
+											"        hasTaskId = t.id === taskId;",
+											"    }",
+											"});",
+											"",
+											"tests[\"New task was added to the checklist\"] = hasTaskId;",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Update task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Task title update'] = data.title === \"New Title\";",
+											"tests['Task complete update'] = data.complete === true;",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"New Title\",\n\t\"complete\": true\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get task fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response error code\"] = responseCode.code === 404;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Delete Checklist",
+					"description": "Deleting a checklist removes associated tasks.",
+					"item": [
+						{
+							"name": "Create checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Title set properly'] = data.title === 'My Checklist';",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"checklistId\", data.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My Checklist\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests['Task updated on create'] = data.title === \"My Task\";",
+											"tests[\"Successful response code\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"taskId\", data.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My Task\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response error code\"] = responseCode.code === 200;",
+											"tests['Empty response'] = responseBody === \"{}\";"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get task fail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response error code\"] = responseCode.code === 404;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Failure Requests",
+					"description": "",
+					"item": [
+						{
+							"name": "Create task - No checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Failure error code\"] = responseCode.code === 404;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}/tasks/create",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Update task - No checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Failure error code\"] = responseCode.code === 404;"
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}/tasks/{{$randomInt}}",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"New Title\",\n\t\"complete\": true\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy task - No checklist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Successful response code\"] = responseCode.code === 404;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}/tasks/{{$randomInt}}",
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}

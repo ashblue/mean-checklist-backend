@@ -1,3 +1,4 @@
+import bluebird = require('bluebird');
 import mongoose = require('mongoose');
 
 const DB_SRC: string = 'mongodb://localhost/mean-checklist';
@@ -5,6 +6,7 @@ const DB_SRC: string = 'mongodb://localhost/mean-checklist';
 // @NOTE See here if MongoDB bombs out on OSX https://stackoverflow.com/questions/23418134/cannot-connect-to-mongodb-errno61-connection-refused
 export class Database {
     constructor () {
+        mongoose.Promise = bluebird;
         mongoose.connect(DB_SRC, {
             useMongoClient: true,
         });
