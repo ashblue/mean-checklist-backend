@@ -9,7 +9,7 @@
     "gulp-compile": "gulp --gulpfile gulp/bootstrap.js --cwd .",
     "gulp-build": "gulp --gulpfile dist/gulp/index.js --cwd .",
     "gulp-watch": "gulp watch --gulpfile dist/gulp/index.js --cwd .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "newman run tests/postman/mean-checklist.postman_collection"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "body-parser": "^1.18.2",
     "del": "^3.0.0",
     "express": "^4.16.2",
+    "express-validator": "^4.2.1",
     "gulp": "^3.9.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.2",
@@ -28,6 +29,7 @@
     "typescript": "^2.5.3"
   },
   "devDependencies": {
-    "gulp-nodemon": "^2.2.1"
+    "gulp-nodemon": "^2.2.1",
+    "newman": "^3.8.3"
   }
 }

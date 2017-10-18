@@ -1,12 +1,24 @@
+import { ModelBase } from './../base/model-base';
+
 import mongoose = require('mongoose');
 
-const checklistSchema: mongoose.Schema = new mongoose.Schema({
-    createdAt: Date,
-    title: String,
-    tasks: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Task',
-    },
-});
+class ModelChecklistInternal extends ModelBase {
+    protected get schemaDefinition (): mongoose.SchemaDefinition {
+        return {
+            createdAt: {
+                type: Date,
+                default: Date.now,
+            },
+            title: {
+                type: String,
+                default: 'Untitled',
+            },
+            tasks: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Task',
+            }],
+        };
+    }
+}
 
-export const ModelChecklist = mongoose.model('Checklist', checklistSchema);
+export const ModelChecklist = mongoose.model('Checklist', new ModelChecklistInternal().schema);
