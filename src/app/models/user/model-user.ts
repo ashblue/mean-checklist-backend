@@ -3,6 +3,22 @@ import { ModelBase } from './../base/model-base';
 import mongoose = require('mongoose');
 
 class ModelUserInternal extends ModelBase {
+    get schemaOptions (): mongoose.SchemaOptions {
+        return {
+            toJSON: {
+                transform: (doc, ret) => {
+                    // Hide all sensitive data from the API end point
+                    delete ret.createdAt;
+                    delete ret._id;
+                    delete ret.__v;
+                    delete ret.password;
+
+                    return ret;
+                },
+            },
+        };
+    }
+
     protected get schemaDefinition (): mongoose.SchemaDefinition {
         return {
             createdAt: {

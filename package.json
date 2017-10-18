@@ -25,7 +25,10 @@
     "gulp": "^3.9.1",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.2",
+    "jwt-simple": "^0.5.1",
     "mongoose": "^4.12.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   },
