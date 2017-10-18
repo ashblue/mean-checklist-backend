@@ -11,11 +11,11 @@ import { ModelChecklist, ModelTask } from '../../models/index';
 class CtrlChecklistTasks {
     public create (req: express.Request, res: express.Response) {
         sanitize('id').escape().trim();
-        req.body.owner = req['user'].id;
+        req.body.owner = req['user']._id;
 
         ModelChecklist.findOne({
-            id: req.params.id,
-            owner: req['user'].id,
+            _id: req.params.id,
+            owner: req['user']._id,
         })
             .exec((err, checklist) => {
                 if (err) {
@@ -61,8 +61,8 @@ class CtrlChecklistTasks {
         delete req.body.owner;
 
         ModelTask.findOneAndUpdate({
-            id: req.params.idTask,
-            owner: req['user'].id,
+            _id: req.params.idTask,
+            owner: req['user']._id,
         }, req.body, {new: true}, (err, task) => {
             if (err) {
                 res.status(404).json(err);
@@ -77,8 +77,8 @@ class CtrlChecklistTasks {
         sanitize('idTask').escape().trim();
 
         ModelTask.findOneAndRemove({
-            id: req.params.idTask,
-            owner: req['user'].id,
+            _id: req.params.idTask,
+            owner: req['user']._id,
         }, (err) => {
             if (err) {
                 res.status(404).json(err);
@@ -93,8 +93,8 @@ class CtrlChecklistTasks {
         sanitize('idTask').escape().trim();
 
         ModelTask.findOne({
-            id: req.params.idTask,
-            owner: req['user'].id,
+            _id: req.params.idTask,
+            owner: req['user']._id,
         })
             .exec((err, task) => {
                 if (err) {

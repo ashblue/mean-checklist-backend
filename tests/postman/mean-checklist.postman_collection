@@ -8,6 +8,297 @@
 	},
 	"item": [
 		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Create",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Duplicate",
+							"description": "",
+							"item": [
+								{
+									"name": "Create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var data = JSON.parse(responseBody);",
+													"tests[\"User created\"] = responseCode.code === 200;",
+													"postman.setEnvironmentVariable(\"email\", data.email);",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3000/api/v1/users/register",
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "Create user duplicate email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Prevented user from being created\"] = responseCode.code === 500;",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3000/api/v1/users/register",
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"description": ""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{email}}\",\n\t\"password\": \"{{password}}\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests[\"User created\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"email\", data.email);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No name detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{$guid}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No email detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"password\": \"{{$guid}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Create user - No password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"No email detected\"] = responseCode.code === 500;",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Login",
+					"description": "",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var data = JSON.parse(responseBody);",
+											"tests[\"User created\"] = responseCode.code === 200;",
+											"postman.setEnvironmentVariable(\"email\", data.email);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/register",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Loerm Ipsum\",\n\t\"email\": \"{{$guid}}@gmail.com\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Login provides token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Login success\"] = responseCode.code === 200;",
+											"var data = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"token\", data.token);",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"url": "http://localhost:3000/api/v1/users/login",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{email}}\",\n\t\"password\": \"{{password}}\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
 			"name": "Checklists",
 			"description": "",
 			"item": [
@@ -39,6 +330,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -67,7 +363,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -83,7 +385,7 @@
 										"exec": [
 											"var data = JSON.parse(responseBody);",
 											"tests['Response returned'] = data !== null;",
-											"tests[\"Successful response error code\"] = responseCode.code === 200;"
+											"tests[\"Successful response code\"] = responseCode.code === 200;"
 										]
 									}
 								}
@@ -91,7 +393,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": "@TODO Use an environmental variable for the ID"
 							},
@@ -120,6 +428,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -147,7 +460,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -176,7 +495,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -202,6 +527,11 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
 										"description": ""
 									}
 								],
@@ -229,7 +559,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}",
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -272,6 +608,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -306,6 +647,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -334,7 +680,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -368,7 +720,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -399,6 +757,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -426,7 +789,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -449,7 +818,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -486,6 +861,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -520,6 +900,11 @@
 										"key": "Content-Type",
 										"value": "application/json",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
 									}
 								],
 								"body": {
@@ -547,7 +932,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}",
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -570,7 +961,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{checklistId}}/tasks/{{taskId}}",
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -599,7 +996,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}/tasks/create",
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},
@@ -625,6 +1028,11 @@
 									{
 										"key": "Content-Type",
 										"value": "application/json",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
 										"description": ""
 									}
 								],
@@ -653,7 +1061,13 @@
 							"request": {
 								"url": "http://localhost:3000/api/v1/checklists/{{$randomInt}}/tasks/{{$randomInt}}",
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"description": ""
+									}
+								],
 								"body": {},
 								"description": ""
 							},

@@ -15,7 +15,7 @@ export class CtrlAuth {
             secretOrKey: authConfig.jwtSecret,
             jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
         }, (payload, done) => {
-            ModelUser.findById(payload.sub, (err, user) => {
+            ModelUser.findById(payload.id, (err, user) => {
                 if (err) {
                     return done(err, false);
                 }
@@ -53,10 +53,12 @@ export class CtrlAuth {
             user.save((err, user) => {
                 if (err) {
                     res.status(500).json(err);
+                    return;
                 }
 
                 if (user == null) {
                     res.status(500).json({message: 'Could not generate user'});
+                    return;
                 }
 
                 res.json(user);
@@ -83,8 +85,16 @@ export class CtrlAuth {
             }
 
             const token = jwt.encode({id: user.id}, authConfig.jwtSecret);
-            res.json({token});
+            res.json({
+                token,
+                user,
+            });
         });
+    }
+
+    public logout (req: express.Request, res: express.Response) {
+        // @TODO jwt.encode should use a randomly generated GUID to create the token (stored in the user model)
+        // On logout the JWT token GUID should be scrambled and a new token generated
     }
 
     public authenticate () {

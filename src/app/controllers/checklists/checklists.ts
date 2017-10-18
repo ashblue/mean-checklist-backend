@@ -7,7 +7,7 @@ import { ModelChecklist, ModelTask } from '../../models/index';
 // @TODO Limit checklist access on all methods to items that belong to the requester
 class CtrlChecklists {
     public index (req: express.Request, res: express.Response) {
-        ModelChecklist.find({owner: req['user'].id})
+        ModelChecklist.find({owner: req['user']._id})
             .sort([['createdAt', 'descending']])
             .exec((err, checklists) => {
                 if (err) {
@@ -20,7 +20,7 @@ class CtrlChecklists {
     }
 
     public create (req: express.Request, res: express.Response) {
-        req.body.owner = req['user'].id;
+        req.body.owner = req['user']._id;
         const checklist = new ModelChecklist(req.body);
         checklist.save((err) => {
             if (err) {
@@ -36,13 +36,18 @@ class CtrlChecklists {
         sanitize('id').escape().trim();
 
         ModelChecklist.findOne({
-            id: req.params.id,
-            owner: req['user'].id,
+            _id: req.params.id,
+            owner: req['user']._id,
         })
             .populate('tasks')
             .exec((err, checklist) => {
                 if (err) {
                     res.status(404).json(err);
+                    return;
+                }
+
+                if (!checklist) {
+                    res.status(404).json({message: 'Checklist not found'});
                     return;
                 }
 
@@ -59,8 +64,8 @@ class CtrlChecklists {
         delete req.body.owner;
 
         ModelChecklist.findOneAndUpdate({
-            id: req.params.id,
-            owner: req['user'].id,
+            _id: req.params.id,
+            owner: req['user']._id,
         }, req.body, {new: true}, (err, checklist) => {
             if (err) {
                 res.status(404).json(err);
@@ -74,9 +79,9 @@ class CtrlChecklists {
     public destroy (req: express.Request, res: express.Response) {
         sanitize('id').escape().trim();
 
-        ModelChecklist.findOneAndUpdate({
-            id: req.params.id,
-            owner: req['user'].id,
+        ModelChecklist.findOneAndRemove({
+            _id: req.params.id,
+            owner: req['user']._id,
         }, (err, checklist) => {
             if (err) {
                 res.status(404).json(err);

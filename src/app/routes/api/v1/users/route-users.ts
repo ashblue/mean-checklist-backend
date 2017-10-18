@@ -5,8 +5,8 @@ class RouteUsers {
     public router = express.Router();
 
     constructor () {
-        this.router.get('/login', ctrlAuth.login);
-        this.router.get('/register', ctrlAuth.register);
+        this.router.put('/login', ctrlAuth.login);
+        this.router.put('/register', ctrlAuth.register);
     }
 }
 
