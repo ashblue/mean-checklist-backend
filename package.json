@@ -17,6 +17,7 @@
     "@types/express": "^4.0.37",
     "@types/mongoose": "^4.7.23",
     "@types/node": "^8.0.34",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "del": "^3.0.0",
     "express": "^4.16.2",
