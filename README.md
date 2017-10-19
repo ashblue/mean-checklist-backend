@@ -37,5 +37,5 @@ about and use Postman to update the tests, please see [here](https://www.getpost
 
 `npm run serve-db-mocks`: Create a new database with injected data mocks. Then run the server. For
 a list of the generated mock accounts with password please see 
-[here]((gulp/tasks/database/database-mocks.ts)).
+[here]((src/app/controllers/databases/mocks/mock-users.ts)).
 
