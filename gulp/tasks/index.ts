@@ -3,3 +3,4 @@ export * from './build-typescript/task-build-typescript';
 export * from './server/task-server';
 export * from './server-watch/task-server-watch';
 export * from './tslint/task-tslint';
+export * from './node-variables/index';

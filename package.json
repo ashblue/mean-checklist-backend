@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run gulp-compile; npm run gulp-watch",
-    "build": "npm run gulp-compile; npm run gulp-build",
+    "start": "npm run watch",
+
+    "serve": "npm run gulp-compile; npm run gulp-serve",
+    "serve-db-new": "npm run drop-database; npm run gulp-compile; npm run gulp-serve",
+    "serve-db-mocks": "npm run drop-database; npm run gulp-compile; npm run gulp-serve-mocks",
+    "watch": "npm run gulp-compile; npm run gulp-watch",
+
     "gulp-compile": "gulp --gulpfile gulp/bootstrap.js --cwd .",
-    "gulp-build": "gulp --gulpfile dist/gulp/index.js --cwd .",
+    "gulp-serve": "gulp serve --gulpfile dist/gulp/index.js --cwd .",
+    "gulp-serve-mocks": "gulp serve-mocks --gulpfile dist/gulp/index.js --cwd .",
     "gulp-watch": "gulp watch --gulpfile dist/gulp/index.js --cwd .",
-    "test": "mongo mean-checklist --eval 'db.dropDatabase();'; newman run tests/postman/mean-checklist.postman_collection"
+
+    "drop-database": "mongo mean-checklist --eval 'db.dropDatabase();';",
+
+    "test": "npm run drop-database; newman run tests/postman/mean-checklist.postman_collection"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +42,7 @@
     "typescript": "^2.5.3"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "gulp-nodemon": "^2.2.1",
     "newman": "^3.8.3"
   }

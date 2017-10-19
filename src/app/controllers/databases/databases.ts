@@ -11,7 +11,6 @@ export class Database {
             useMongoClient: true,
         });
         const connection = mongoose.connection;
-
         connection.on('error', console.error.bind(console, 'connection error:'));
 
         connection.on('open', () => {
@@ -21,5 +20,11 @@ export class Database {
         connection.on('close', () => {
             console.log(`Closed connection to MongoDB: ${DB_SRC}`);
         });
+
+        console.log('Mocks enabled:', this.hasDbMocks());
+    }
+
+    public hasDbMocks (): boolean {
+        return process.env.DB_MOCKS === 'true';
     }
 }
