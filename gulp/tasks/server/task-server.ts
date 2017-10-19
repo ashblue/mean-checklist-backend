@@ -3,7 +3,7 @@ import { buildTypescript } from '../build-typescript/task-build-typescript';
 
 import nodemon = require('gulp-nodemon');
 
-class TaskServer extends TaskBase {
+export class TaskServer extends TaskBase {
     get dependencies (): string[] {
         return [buildTypescript.name];
     }

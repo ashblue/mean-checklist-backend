@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run gulp-compile; npm run gulp-watch",
-    "build": "npm run gulp-compile; npm run gulp-build",
+    "start": "npm run watch",
+    "watch": "npm run gulp-compile; npm run gulp-watch",
+    "serve": "npm run gulp-compile; npm run gulp-serve",
+    "serve-db-new": "npm run gulp-compile; npm run gulp-serve-db-new",
+    "serve-db-mocks": "npm run gulp-compile; npm run gulp-serve-db-mocks",
     "gulp-compile": "gulp --gulpfile gulp/bootstrap.js --cwd .",
-    "gulp-build": "gulp --gulpfile dist/gulp/index.js --cwd .",
+    "gulp-serve": "gulp serve --gulpfile dist/gulp/index.js --cwd .",
+    "gulp-serve-db-new": "gulp serve-db-new --gulpfile dist/gulp/index.js --cwd .",
+    "gulp-serve-db-mocks": "gulp serve-db-mocks --gulpfile dist/gulp/index.js --cwd .",
     "gulp-watch": "gulp watch --gulpfile dist/gulp/index.js --cwd .",
     "test": "mongo mean-checklist --eval 'db.dropDatabase();'; newman run tests/postman/mean-checklist.postman_collection"
   },
