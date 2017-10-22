@@ -9,6 +9,7 @@ class CtrlChecklists {
     public index (req: express.Request, res: express.Response) {
         ModelChecklist.find({owner: req['user']._id})
             .sort([['createdAt', 'descending']])
+            .populate('tasks')
             .exec((err, checklists) => {
                 if (err) {
                     res.status(500).json(err);
