@@ -74,18 +74,47 @@ class CtrlChecklistTasks {
     }
 
     public destroy (req: express.Request, res: express.Response) {
+        sanitize('id').escape().trim();
         sanitize('idTask').escape().trim();
 
-        ModelTask.findOneAndRemove({
-            _id: req.params.idTask,
+        ModelChecklist.findOne({
+            _id: req.params.id,
             owner: req['user']._id,
-        }, (err) => {
+        }).exec((err, checklist) => {
             if (err) {
                 res.status(404).json(err);
                 return;
             }
 
-            res.status(200).json({});
+            if (checklist == null) {
+                res.status(400).json({
+                    message: `No checklist found with id ${req.params.id}. Response was ${checklist}`,
+                });
+                return;
+            }
+
+            ModelTask.findOneAndRemove({
+                _id: req.params.idTask,
+                owner: req['user']._id,
+            }, (err) => {
+                if (err) {
+                    res.status(404).json(err);
+                    return;
+                }
+
+                res.status(200).json({});
+            });
+
+            // @TODO This should be fired after remove is complete (consider a library like async to symplify the nesting syntax)
+            // .exec() is required to trigger $pull from Mongoose update
+            ModelChecklist.findOneAndUpdate({
+                _id: req.params.id,
+                owner: req['user']._id,
+            }, {
+                $pull: {
+                    tasks: req.params.idTask,
+                },
+            }).exec();
         });
     }
 
