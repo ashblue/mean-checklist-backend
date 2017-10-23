@@ -8,12 +8,21 @@ import { ModelChecklist } from '../../models/checklist/checklist';
 import { ModelTask } from '../../models/task/task';
 
 const DB_SRC: string = 'mongodb://localhost/mean-checklist';
+const DB_HEROKU = process.env.MONGODB_URI;
 
 // @NOTE See here if MongoDB bombs out on OSX https://stackoverflow.com/questions/23418134/cannot-connect-to-mongodb-errno61-connection-refused
 export class Database {
+    get dbConnection (): string {
+        if (!DB_HEROKU || DB_HEROKU === '') {
+            return DB_SRC;
+        }
+
+        return DB_HEROKU;
+    }
+
     constructor () {
         mongoose.Promise = bluebird;
-        mongoose.connect(DB_SRC, {
+        mongoose.connect(this.dbConnection, {
             useMongoClient: true,
         });
 
