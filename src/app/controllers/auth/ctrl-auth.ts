@@ -80,7 +80,7 @@ export class CtrlAuth {
             }
 
             if (!user) {
-                res.status(401).json({message: 'User not found'});
+                res.status(401).json({message: 'Invalid login credentials'});
                 return;
             }
 
