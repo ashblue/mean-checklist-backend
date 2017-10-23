@@ -9,7 +9,7 @@ class CtrlChecklists {
     public index (req: express.Request, res: express.Response) {
         ModelChecklist.find({owner: req['user']._id})
             .sort([['createdAt', 'descending']])
-            .populate('tasks')
+            .populate({path: 'tasks', options: {sort: {createdAt: -1}}})
             .exec((err, checklists) => {
                 if (err) {
                     res.status(500).json(err);
@@ -40,7 +40,7 @@ class CtrlChecklists {
             _id: req.params.id,
             owner: req['user']._id,
         })
-            .populate('tasks')
+            .populate({path: 'tasks', options: {sort: {createdAt: -1}}})
             .exec((err, checklist) => {
                 if (err) {
                     res.status(404).json(err);
