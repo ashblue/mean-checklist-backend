@@ -17,6 +17,11 @@ class App {
         this.express.use(this.logRequests);
         this.express.use(ctrlAuth.passport.initialize());
         this.api = new RouteApi(this.express);
+
+        this.express.use('/', express.static('public'));
+        this.express.get('*', (req, res) => {
+            res.sendfile('public/index.html');
+        });
     }
 
     private logRequests (req, res, next) {
